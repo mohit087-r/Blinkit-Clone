@@ -48,13 +48,45 @@ export async function registerUserController(req, res){
         })
 
         return res.status(200).json({
-            message : "User register successfully",
+            message : 'User register successfully',
             error : false,
             success : true,
             data : save
         })
     }
     catch (error) {
+        return res.status(500).json({
+            message : 'Internal server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+export async function verifyEmailController(req, res){
+    try {
+        const code = req.body
+
+        const user = await UserModel.findOne({_id : code})
+
+        if(!user){
+            return res.status(400).json({
+                message : 'Invalid code',
+                error : true,
+                success : false
+            })
+        }
+
+        const updateUser = await UserModel.updateOne({_id : code},{
+            verify_email : true
+        })
+
+        return res.json({
+            message : 'Email verification done',
+            error : false,
+            success : true
+        })
+    } catch (error) {
         return res.status(500).json({
             message : 'Internal server error',
             error : true,
