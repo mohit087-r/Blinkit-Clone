@@ -15,8 +15,8 @@ export async function registerUserController(req, res){
             })
         }
 
-        const user = await UserModel.find({ email });
-
+        const user = await UserModel.findOne({ email : email });
+        
         if(user){
             return res.status(403).json({
                 message : 'Email is already registered',
