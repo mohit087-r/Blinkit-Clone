@@ -5,6 +5,7 @@ import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';
 import generateAccessToken from '../utils/generateAccessToken.js';
 import generateRefreshToken from '../utils/generateRefreshToken.js';
 
+
 export async function registerController(req, res){
     try{
         const {name, email, password} = req.body;
@@ -101,6 +102,14 @@ export async function loginController(req, res){
     try {
         const {email, password} = req.body;
 
+        if(!email || !password){
+            return res.status(400).json({
+                message : 'Please provide email and password',
+                error : true,
+                success : false
+            })
+        }
+
         const user = await UserModel.findOne({ email })
 
         if(!user){
@@ -132,11 +141,13 @@ export async function loginController(req, res){
         const accessToken = await generateAccessToken(user._id)
         const refreshToken = await generateRefreshToken(user._id)
 
-        res.cookie('accesstoken', accessToken, {
+        const cookieOption = {
             httpOnly : true,
             secure : true,
             sameSite : 'None'
-        })
+        }
+
+        res.cookie('accessToken', accessToken, cookieOption)
 
         res.cookie('refreshToken', refreshToken, {
             httpOnly : true,
@@ -155,6 +166,31 @@ export async function loginController(req, res){
         })
     } catch (error) {
         return res.status(500).json({
+            message : 'Interval server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+export async function logoutController(req, res){
+    try {
+        const cookieOption = {
+            httpOnly : true,
+            secure : true,
+            sameSite : 'None'
+        }
+
+        res.clearCookie("accessToken", cookieOption)
+        res.clearCookie("refreshToken", cookieOption)
+
+        return res.json({
+            message : 'logout successfully',
+            error : false,
+            success : true
+        })
+    } catch (error) {
+        res.status(500).json({
             message : 'Interval server error',
             error : true,
             success : false
