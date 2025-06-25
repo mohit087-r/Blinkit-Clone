@@ -4,6 +4,7 @@ import bcrypt from 'bcryptjs'
 import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';
 import generateAccessToken from '../utils/generateAccessToken.js';
 import generateRefreshToken from '../utils/generateRefreshToken.js';
+import uploadImageCloudinary from '../utils/uploadImageCloudinary.js';
 
 
 export async function registerController(req, res){
@@ -175,6 +176,8 @@ export async function loginController(req, res){
 
 export async function logoutController(req, res){
     try {
+        const userId = req.userId;
+
         const cookieOption = {
             httpOnly : true,
             secure : true,
@@ -184,8 +187,40 @@ export async function logoutController(req, res){
         res.clearCookie("accessToken", cookieOption)
         res.clearCookie("refreshToken", cookieOption)
 
+        const removeRefreshToken = await UserModel.findByIdAndUpdate(userId, {
+            refresh_token : ""
+        })
+
         return res.json({
             message : 'logout successfully',
+            error : false,
+            success : true
+        })
+    } catch (error) {
+        res.status(500).json({
+            message : 'Interval server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+export async function uploadAvatar(req, res) {
+    try {
+        const userId = req.userId  //auth middleware
+        const image = req.file  //multer middleware
+        const upload = await uploadImageCloudinary(image)
+
+        const updateAvatar = await UserModel.findByIdAndUpdate(userId,{
+            avatar : upload.url
+        })
+        
+        return res.json({
+            message : 'profile uploaded successfully',
+            data : {
+                _id : userId,
+                avatar : upload.url
+            },
             error : false,
             success : true
         })
