@@ -5,6 +5,8 @@ import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';
 import generateAccessToken from '../utils/generateAccessToken.js';
 import generateRefreshToken from '../utils/generateRefreshToken.js';
 import uploadImageCloudinary from '../utils/uploadImageCloudinary.js';
+import generateOtp from '../utils/generateOtp.js';
+import forgotPasswordTemplate from '../utils/forgotPasswordTemplate.js';
 
 // register controller
 export async function registerController(req, res){
@@ -266,6 +268,163 @@ export async function updateUserDetails(req, res) {
             error : false,
             success : true,
             data : updateUser
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message : 'Interval server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+
+//forgot password
+export async function forgotPasswordController(req, res) {
+    try {
+        const { email } = req.body
+
+        const user = await UserModel.findOne({ email : email })
+
+        if(!user){
+            return res.status(400).json({
+                message : 'Email not register',
+                rror : true,
+                success : false
+            })
+        }
+
+        const otp = generateOtp()
+        const expireTime = new Date(Date.now() + 10 * 60 * 1000); // 10 min
+        
+        await UserModel.findByIdAndUpdate(user._id,{
+            forgot_password_otp : otp,
+            forgot_password_expiry : new Date(expireTime).toISOString()
+        })
+        
+        await sendEmail({
+            sendTo : email,
+            subject : 'Reset Your SnapBasket Password',
+            html : forgotPasswordTemplate({
+                name : user.name,
+                otp : otp
+            })
+        })
+
+        return res.status(200).json({
+            message : 'Check your email',
+            error : false,
+            success : true
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message : 'Interval server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+
+//verify forgot password otp
+export async function verifyForgotPasswordOtp(req, res) {
+    try {
+        const { email, otp } = req.body;
+        
+        if(!email || !otp){
+            return res.status(400).json({
+                message : 'Provide required fields email, otp',
+                error : true,
+                success : false
+            })
+        }
+
+        const user = await UserModel.findOne({ email : email })
+
+        if(!user){
+            return res.status(400).json({
+                message : 'Email not register',
+                rror : true,
+                success : false
+            })
+        }
+
+        const currentTime = new Date()
+
+        if(user.forgot_password_expiry > currentTime){
+            return res.status(400).json({
+                message : 'Your OTP has expired. Please request a new one to continue',
+                rror : true,
+                success : false
+            })
+        }
+        
+        if(user.forgot_password_otp !== otp){
+            return res.status(400).json({
+                message : 'Invalid OTP. Please check and try again',
+                rror : true,
+                success : false
+            })
+        }
+
+        return res.status(200).json({
+            message : 'Verify otp successfull',
+            error : false,
+            success : true
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message : 'Interval server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+
+//reset the password
+export async function resetPassword(req, res) {
+    try {
+        const { email , newPassword, confirmPassword } = req.body
+
+        if(!email || !newPassword || !confirmPassword){
+            return res.status(400).json({
+                message : 'Provide required fields email, newPassword and confirmPassword',
+                error : true,
+                success : false
+            })
+        }
+
+        if(newPassword !== confirmPassword){
+            return res.status(400).json({
+                message : 'New password and confirm password do not match',
+                error : true,
+                success : false
+            })
+        }
+
+        const user = await UserModel.findOne({ email : email })
+
+        if(!user){
+            return res.status(400).json({
+                message : 'Email not register',
+                error : true,
+                success : false
+            })
+        }
+
+        const hashedPassword = await bcrypt.hash(newPassword, 10);
+        await UserModel.findOneAndUpdate(user._id,{
+            password : hashedPassword
+        })
+
+        return res.status(200).json({
+            message : 'Your password has been successfully updated',
+            error : false,
+            success : true
         })
 
     } catch (error) {
