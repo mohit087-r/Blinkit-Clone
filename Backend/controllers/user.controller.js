@@ -6,7 +6,7 @@ import generateAccessToken from '../utils/generateAccessToken.js';
 import generateRefreshToken from '../utils/generateRefreshToken.js';
 import uploadImageCloudinary from '../utils/uploadImageCloudinary.js';
 
-
+// register controller
 export async function registerController(req, res){
     try{
         const {name, email, password} = req.body;
@@ -67,6 +67,8 @@ export async function registerController(req, res){
     }
 }
 
+
+// verify email controller
 export async function verifyEmailController(req, res){
     try {
         const code = req.body
@@ -99,6 +101,8 @@ export async function verifyEmailController(req, res){
     }
 }
 
+
+// login controller
 export async function loginController(req, res){
     try {
         const {email, password} = req.body;
@@ -174,6 +178,8 @@ export async function loginController(req, res){
     }
 }
 
+
+// logout controller
 export async function logoutController(req, res){
     try {
         const userId = req.userId;
@@ -205,13 +211,15 @@ export async function logoutController(req, res){
     }
 }
 
+
+// upload user avater
 export async function uploadAvatar(req, res) {
     try {
         const userId = req.userId  //auth middleware
         const image = req.file  //multer middleware
         const upload = await uploadImageCloudinary(image)
 
-        const updateAvatar = await UserModel.findByIdAndUpdate(userId,{
+        await UserModel.findByIdAndUpdate(userId,{
             avatar : upload.url
         })
         
@@ -224,6 +232,42 @@ export async function uploadAvatar(req, res) {
             error : false,
             success : true
         })
+    } catch (error) {
+        res.status(500).json({
+            message : 'Interval server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+// update user details
+export async function updateUserDetails(req, res) {
+    try {
+        const userId = req.userId
+        const { name, email, mobile, password } = req.body;
+
+        let hashedPassword =  ''
+        if(password){
+            hashedPassword = await bcrypt.hash(password, 10);
+        }
+
+        const updateUser = await UserModel.findByIdAndUpdate(userId, {
+            ...(name && {name : name}),
+            ...(email && {email : email}),
+            ...(password && {password : hashedPassword}),
+            ...(mobile && {mobile : mobile})
+        },
+        { new: true}
+        )
+
+        res.status(200).json({
+            message : 'upadate successfully',
+            error : false,
+            success : true,
+            data : updateUser
+        })
+
     } catch (error) {
         res.status(500).json({
             message : 'Interval server error',
