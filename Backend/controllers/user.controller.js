@@ -1,6 +1,7 @@
 import sendEmail from '../config/sendEmail.js';
 import UserModel from '../models/user.model.js'
 import bcrypt from 'bcryptjs'
+import jwt from 'jsonwebtoken'
 import verifyEmailTemplate from '../utils/verifyEmailTemplate.js';
 import generateAccessToken from '../utils/generateAccessToken.js';
 import generateRefreshToken from '../utils/generateRefreshToken.js';
@@ -69,7 +70,6 @@ export async function registerController(req, res){
     }
 }
 
-
 // verify email controller
 export async function verifyEmailController(req, res){
     try {
@@ -102,7 +102,6 @@ export async function verifyEmailController(req, res){
         })
     }
 }
-
 
 // login controller
 export async function loginController(req, res){
@@ -155,12 +154,7 @@ export async function loginController(req, res){
         }
 
         res.cookie('accessToken', accessToken, cookieOption)
-
-        res.cookie('refreshToken', refreshToken, {
-            httpOnly : true,
-            secure : true,
-            sameSite : 'None'
-        })
+        res.cookie('refreshToken', refreshToken, cookieOption)
 
         res.status(200).json({
             message : 'login successfully',
@@ -179,7 +173,6 @@ export async function loginController(req, res){
         })
     }
 }
-
 
 // logout controller
 export async function logoutController(req, res){
@@ -212,7 +205,6 @@ export async function logoutController(req, res){
         })
     }
 }
-
 
 // upload user avater
 export async function uploadAvatar(req, res) {
@@ -279,7 +271,6 @@ export async function updateUserDetails(req, res) {
     }
 }
 
-
 //forgot password
 export async function forgotPasswordController(req, res) {
     try {
@@ -326,7 +317,6 @@ export async function forgotPasswordController(req, res) {
         })
     }
 }
-
 
 //verify forgot password otp
 export async function verifyForgotPasswordOtp(req, res) {
@@ -425,6 +415,59 @@ export async function resetPassword(req, res) {
             message : 'Your password has been successfully updated',
             error : false,
             success : true
+        })
+
+    } catch (error) {
+        res.status(500).json({
+            message : 'Interval server error',
+            error : true,
+            success : false
+        })
+    }
+}
+
+
+//refresh token controller
+export async function refreshToken(req, res){
+    try {
+        const refreshToken = req.cookies.refreshToken || req?.headers?.authorization?.split(" ")[1]
+
+        if(!refreshToken){
+            return res.status(401).json({
+                message : 'Invalid token',
+                error : true,
+                success : false
+            })
+        }
+
+        const verifyToken = await jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH_TOKEN)
+
+        if(!verifyToken){
+            return res.status(401).json({
+                message : 'token is expired',
+                error : true,
+                success : false
+            })
+        }
+        
+        const userId = verifyToken.id;
+        const newAccessToken = await generateAccessToken(userId)
+
+        const cookieOption = {
+            httpOnly : true,
+            secure : true,
+            sameSite : 'None'
+        }
+
+        res.cookie('accessToken', newAccessToken, cookieOption)
+        
+        return res.status(200).json({
+            message: 'New Access token generated',
+            error : false,
+            success : true,
+            data : {
+                accessToken : newAccessToken
+            }
         })
 
     } catch (error) {
