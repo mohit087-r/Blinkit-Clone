@@ -10,8 +10,6 @@ const verifyEmailTemplate = ({ name, url }) => {
                         Verify Email
                     </a>
                 </div>
-                <p>If the button above doesn’t work, copy and paste this URL into your browser:</p>
-                <p style="word-break: break-all;"><a href="${url}">${url}</a></p>
                 <p style="margin-top: 30px;">Regards,<br>The SnapBasket Team</p>
             </div>
         </div>

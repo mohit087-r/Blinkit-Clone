@@ -17,7 +17,7 @@ const Header = () => {
     }
 
     return (
-        <header className='h-25 gap-1 lg:h-18 lg:shadow-md sticky top-0 flex flex-col justify-center'>
+        <header className='h-25 gap-1 lg:h-20 lg:shadow-sm sticky top-0 flex flex-col justify-center bg-white'>
             {!(isMobile && isSearchPage) && (
                 <div className='container mx-auto flex items-center justify-between px-2'>
                     {/* logo */}
@@ -33,15 +33,17 @@ const Header = () => {
                             <img 
                                 src={logo} 
                                 alt="logo" 
-                                width={130}
+                                width={140}
                                 className='block md:hidden'
                             />
                         </div>
                     </Link>
 
+                    {/* Search */}
                     <div className='hidden lg:block'>
                         <Search/>
                     </div>
+
                     {/* login and my cart */}
                     <div>
                         <div className='hidden lg:flex items-center gap-10'>

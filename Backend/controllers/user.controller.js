@@ -63,7 +63,7 @@ export async function registerController(req, res){
     }
     catch (error) {
         return res.status(500).json({
-            message : 'Internal server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -96,7 +96,7 @@ export async function verifyEmailController(req, res){
         })
     } catch (error) {
         return res.status(500).json({
-            message : 'Internal server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -167,7 +167,7 @@ export async function loginController(req, res){
         })
     } catch (error) {
         return res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -199,7 +199,7 @@ export async function logoutController(req, res){
         })
     } catch (error) {
         res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -228,7 +228,7 @@ export async function uploadAvatar(req, res) {
         })
     } catch (error) {
         res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -264,7 +264,7 @@ export async function updateUserDetails(req, res) {
 
     } catch (error) {
         res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -311,7 +311,7 @@ export async function forgotPasswordController(req, res) {
 
     } catch (error) {
         res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -367,7 +367,7 @@ export async function verifyForgotPasswordOtp(req, res) {
 
     } catch (error) {
         res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -419,7 +419,7 @@ export async function resetPassword(req, res) {
 
     } catch (error) {
         res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
@@ -472,7 +472,7 @@ export async function refreshToken(req, res){
 
     } catch (error) {
         res.status(500).json({
-            message : 'Interval server error',
+            message : error.message || error,
             error : true,
             success : false
         })
