@@ -11,11 +11,12 @@ const Input = ({value, onChange, placeholder, label, type}) => {
     return (
         <div className='group'>
         <label htmlFor={label} className='text-slate-800'>{label} :</label>
-        <div className='w-full flex justify-between gap-3 focus-within:border-amber-300 focus-within:bg-amber-50 text-black bg-blue-50 rounded px-4 py-3 mb-4 border border-slate-200 outline-none'>
+        <div className='w-full flex justify-between gap-3 focus-within:border-amber-300 focus-within:bg-amber-50 text-black bg-blue-50 rounded px-4 py-2 mb-4 border border-slate-200 outline-none'>
             <input 
                 type={type == 'password' ? showPassword ? 'text' : 'password' : type}
                 placeholder={placeholder}
                 className='w-full outline-none'
+                autocomplete="off"
                 value={value}
                 id={label}
                 autoFocus={label == 'Name' ? true : false}
