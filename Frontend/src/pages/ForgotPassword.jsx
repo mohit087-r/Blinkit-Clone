@@ -8,19 +8,18 @@ import AxiosToastError from '../../utils/AxiosToastError'
 import SubmitLoader from '../componets/SubmitLoader'
 import SummaryApi from '../common/SummaryApi'
 
-const Login = () => {
+const ForgotPassword = () => {
     const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
     const [allInputFieldEmpty, setAllInputFieldEmpty] = useState(true)
     const [loader, setLoader] = useState(false)
     const navigate = useNavigate()
 
     useEffect(() => {
-        if(!email || !password){
+        if(!email){
             setAllInputFieldEmpty(true)
         }
         else setAllInputFieldEmpty(false)
-    }, [email, password])
+    }, [email])
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -33,11 +32,10 @@ const Login = () => {
         setLoader(true)
         try {
             const response = await Axios({
-                method : SummaryApi.login.method,
-                url : SummaryApi.login.url,
+                method : SummaryApi.forgot_password.method,
+                url : SummaryApi.forgot_password.url,
                 data : {
-                    email,
-                    password
+                    email
                 }
             })
 
@@ -45,16 +43,16 @@ const Login = () => {
             if(response.data.error){
                 toast.error(response.data.message)
                 setLoader(false)
+                return
             }
 
             if(response.data.success){
                 toast.success(response.data.message)
                 setEmail("")
-                setPassword("")
                 setLoader(false)
-                navigate("/")
+                navigate("/verify-otp")
             }
-             
+            
         } catch (error) {
             AxiosToastError(error)
             setLoader(false)
@@ -63,11 +61,11 @@ const Login = () => {
     return (
         <section className='w-full container mx-auto px-2 md:mt-50 mt-30'>
             <div className='bg-white my-4 w-full max-w-[450px] mx-auto rounded-xl p-4'>
-                <p className='text-2xl text-gray-700 font-bold text-center'>
-                    Login
-                </p>
-                <form onSubmit={handleSubmit} className='grid gap-2 mt-6'>
-                    <div className='grid'>
+                <form onSubmit={handleSubmit} className='grid gap-2 mt-2'>
+                    <p className='text-2xl text-gray-700 font-bold text-center'>
+                        Forgot Password
+                    </p>
+                    <div className=''>
                         <Input
                             type="text"
                             label="Email"
@@ -75,29 +73,21 @@ const Login = () => {
                             onChange={(e) => setEmail(e.target.value)}
                             placeholder="mohit@gmail.com"
                         />
-                        <Input
-                            type="password"
-                            label="Password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            placeholder="Min 8 character"
-                        />
-
-                        <Link to={"/forgot-password"} className='flex justify-self-end hover:text-green-700'>Forgot password?</Link>
                 
-                        <button type='submit' disabled={allInputFieldEmpty} className={`${allInputFieldEmpty ? "bg-gray-500" : "bg-green-700 hover:bg-green-600"} mt-3 text-white px-5 py-2 w-full cursor-pointer shadow-sm rounded-lg`}>
+                        <button type='submit' disabled={allInputFieldEmpty} className={`${allInputFieldEmpty ? "bg-gray-500" : "bg-green-700 hover:bg-green-600"} mt-2 text-white px-5 py-2 w-full cursor-pointer shadow-sm rounded-lg`}>
                             {
                                 loader ? (
                                     <SubmitLoader/>
                                 ) : (
-                                    <>Login</>
+                                    <>Send Otp</>
                                 )
                             }
                         </button>
-                         <p className='text-slate-800 text-md mt-3'>
-                            Don't have an account?{" "}
-                            <Link className='text-green-800 font-medium underline' to='/register'>
-                                Register
+
+                        <p className='text-slate-800 text-md mt-3'>
+                            Already have an account?{" "}
+                            <Link className='text-green-800 font-medium underline' to='/login'>
+                                Login
                             </Link>
                         </p>
                     </div>
@@ -107,4 +97,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default ForgotPassword
