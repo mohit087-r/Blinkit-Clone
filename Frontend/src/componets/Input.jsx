@@ -16,7 +16,6 @@ const Input = ({value, onChange, placeholder, label, type}) => {
                 type={type == 'password' ? showPassword ? 'text' : 'password' : type}
                 placeholder={placeholder}
                 className='w-full outline-none'
-                autocomplete="off"
                 value={value}
                 id={label}
                 autoFocus={label == 'Name' ? true : false}

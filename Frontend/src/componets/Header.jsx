@@ -11,7 +11,10 @@ const Header = () => {
     const location = useLocation()
     const naviate = useNavigate()
     const isSearchPage = location.pathname === "/search"
-    const hideHeader = location.pathname === '/login' || location.pathname === '/register'
+    const hideHeader =  location.pathname === '/login' || 
+                        location.pathname === '/register' ||
+                        location.pathname === '/forgot-password' ||
+                        location.pathname === '/verify-otp'
 
     const redirectToLoginPage = () => {
         naviate("/login")
