@@ -49,6 +49,9 @@ const Login = () => {
 
             if(response.data.success){
                 toast.success(response.data.message)
+                console.log(response)
+                localStorage.setItem('accessToken', response.data.data.accessToken)
+                localStorage.setItem('refreshToken', response.data.data.refreshToken)
                 setEmail("")
                 setPassword("")
                 setLoader(false)
@@ -61,7 +64,7 @@ const Login = () => {
         }
     }
     return (
-        <section className='w-full container mx-auto px-2 md:mt-50 mt-30'>
+        <section className='w-full container mx-auto px-2 md:mt-40 mt-30'>
             <div className='bg-white my-4 w-full max-w-[450px] mx-auto rounded-xl p-4'>
                 <p className='text-2xl text-gray-700 font-bold text-center'>
                     Login

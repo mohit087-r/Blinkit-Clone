@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from "react"
 import toast from "react-hot-toast"
-import { useLocation, useNavigate } from "react-router-dom"
+import { data, useLocation, useNavigate } from "react-router-dom"
 import SubmitLoader from '../componets/SubmitLoader';
 import AxiosToastError from "../../utils/AxiosToastError";
 import SummaryApi from "../common/SummaryApi";
@@ -118,7 +118,10 @@ const OtpPage = () => {
             if (response.data.success) {
                 toast.success(response.data.message);
                 setLoader(false);
-                navigate('/reset-password',{state : {email}})
+                navigate('/reset-password',{state : {
+                    data : response.data,
+                    email : email
+                }})
             }
         } catch (error) {
             AxiosToastError(error)

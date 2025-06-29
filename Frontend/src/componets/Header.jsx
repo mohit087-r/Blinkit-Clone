@@ -14,7 +14,8 @@ const Header = () => {
     const hideHeader =  location.pathname === '/login' || 
                         location.pathname === '/register' ||
                         location.pathname === '/forgot-password' ||
-                        location.pathname === '/verify-otp'
+                        location.pathname === '/verify-otp' ||
+                        location.pathname === '/reset-password'
 
     const redirectToLoginPage = () => {
         naviate("/login")
