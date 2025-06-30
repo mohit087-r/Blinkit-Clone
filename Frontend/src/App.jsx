@@ -2,17 +2,31 @@ import { Outlet } from 'react-router-dom'
 import './App.css'
 import Header from './componets/Header'
 import Footer from './componets/Footer'
-import {Toaster} from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
+import { useEffect } from 'react'
+import fetchUserDetails from './utils/fetchUserDetails'
+import { setUserDetails } from './store/userSlice'
+import { useDispatch } from 'react-redux'
+
 function App() {
+  const dispatch = useDispatch()
+
+  const fetchUser = async () => {
+    const userData = await fetchUserDetails()
+    dispatch(setUserDetails(userData.data.data))
+  }
+  useEffect(() => {
+    fetchUser()
+  }, [])
 
   return (
     <>
-      <Header/>
+      <Header />
       <main className='min-h-[78vh]'>
-        <Outlet/>
+        <Outlet />
       </main>
-      <Footer/>
-      <Toaster/>
+      <Footer />
+      <Toaster />
     </>
   )
 }

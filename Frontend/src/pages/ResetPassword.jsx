@@ -3,8 +3,8 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import Input from '../componets/Input';
 import SubmitLoader from '../componets/SubmitLoader';
 import toast from 'react-hot-toast';
-import AxiosToastError from '../../utils/AxiosToastError';
-import Axios from '../../utils/Axios';
+import AxiosToastError from '../utils/AxiosToastError';
+import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
 
 const ResetPassword = () => {

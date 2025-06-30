@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef } from "react"
 import toast from "react-hot-toast"
 import { data, useLocation, useNavigate } from "react-router-dom"
 import SubmitLoader from '../componets/SubmitLoader';
-import AxiosToastError from "../../utils/AxiosToastError";
+import AxiosToastError from "../utils/AxiosToastError";
 import SummaryApi from "../common/SummaryApi";
-import Axios from "../../utils/Axios";
+import Axios from "../utils/Axios";
 
 const OtpPage = () => {
     const [otp, setOtp] = useState(Array(6).fill(""))

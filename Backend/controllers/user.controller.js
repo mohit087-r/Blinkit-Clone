@@ -149,6 +149,10 @@ export async function loginController(req, res) {
         const accessToken = await generateAccessToken(user._id);
         const refreshToken = await generateRefreshToken(user._id);
 
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id,{
+            last_login_date : new Date()
+        })
+
         const cookieOption = {
             httpOnly: true,
             secure: true,
@@ -342,7 +346,7 @@ export async function verifyForgotPasswordOtp(req, res) {
         }
 
         const currentTime = new Date();
-        
+
         const expiryDate = new Date(user.forgot_password_expiry);
         if (expiryDate < currentTime) {
             return res.status(400).json({
@@ -359,6 +363,11 @@ export async function verifyForgotPasswordOtp(req, res) {
                 success: false,
             });
         }
+
+        const updateUser = await UserModel.findByIdAndUpdate(user?._id,{
+            forgot_password_otp : "",
+            forgot_password_expiry : ""
+        })
 
         return res.status(200).json({
             message: "Verify otp successfull",
@@ -477,5 +486,26 @@ export async function refreshToken(req, res) {
             error: true,
             success: false,
         });
+    }
+}
+
+
+export async function userDetails(req, res) {
+    try {
+        const userId = req.userId;
+        const user = await UserModel.findById(userId).select('-password -refresh_token')
+
+        return res.status(200).json({
+            message : 'user details',
+            data : user,
+            error : false,
+            success : true
+        })
+    } catch (error) {
+        return res.status(500).json({
+            message : "Interval server error",
+            error : true,
+            success : false
+        })
     }
 }

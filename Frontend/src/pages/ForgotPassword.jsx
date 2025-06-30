@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Input from '../componets/Input';
-import { validateEmail } from '../../utils/validateEmail';
+import { validateEmail } from '../utils/validateEmail';
 import toast from 'react-hot-toast';
-import Axios from '../../utils/Axios';
-import AxiosToastError from '../../utils/AxiosToastError';
+import Axios from '../utils/Axios';
+import AxiosToastError from '../utils/AxiosToastError';
 import SubmitLoader from '../componets/SubmitLoader';
 import SummaryApi from '../common/SummaryApi';
 
