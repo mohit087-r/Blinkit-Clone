@@ -8,12 +8,15 @@ import AxiosToastError from '../utils/AxiosToastError'
 import SubmitLoader from '../componets/SubmitLoader'
 import SummaryApi from '../common/SummaryApi'
 import fetchUserDetails from '../utils/fetchUserDetails'
+import { setUserDetails } from '../store/userSlice'
+import { useDispatch } from 'react-redux'
 
 const Login = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [allInputFieldEmpty, setAllInputFieldEmpty] = useState(true)
     const [loader, setLoader] = useState(false)
+    const dispath = useDispatch()
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -55,7 +58,8 @@ const Login = () => {
                 setEmail("")
                 setPassword("")
                 setLoader(false)
-                fetchUserDetails();
+                const userData = await fetchUserDetails();
+                dispath(setUserDetails(userData.data.data))
                 navigate("/")
             }
              
