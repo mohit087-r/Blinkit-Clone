@@ -1,14 +1,15 @@
 import logo from '../assets/logo.png'
 import Search from './Search'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { FaRegCircleUser } from 'react-icons/fa6'
 import useMobile from '../hooks/useMobile'
 import Cart from './Cart'
 import Account from './Account'
+import { useSelector } from 'react-redux'
+import UserMenuMobile from './UserMenuMobile'
 
 const Header = () => {
     const [isMobile] = useMobile()
-    
     const location = useLocation()
     const isSearchPage = location.pathname === "/search"
     const hideHeader = location.pathname === '/login' || 
@@ -16,7 +17,8 @@ const Header = () => {
                         location.pathname === '/forgot-password' ||
                         location.pathname === '/verify-otp' ||
                         location.pathname === '/reset-password'
-
+    const navigate = useNavigate()
+         
     return (
         <>
             {
@@ -56,11 +58,9 @@ const Header = () => {
                                         <Account/>
                                         <Cart/>
                                     </div>
-                                    <button className='text-neutral-600 lg:hidden'>
-                                        <FaRegCircleUser
-                                            size={23}
-                                        />
-                                    </button>
+                                    <div>
+                                        <UserMenuMobile/>
+                                    </div>
                                 </div>
                             </div>
                         )}

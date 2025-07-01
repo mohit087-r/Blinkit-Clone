@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go'
 import UserMenu from './UserMenu'
 import { useSelector } from 'react-redux'
@@ -10,8 +10,23 @@ const Account = () => {
     const user = useSelector((state) => state?.user)
 
     const redirectToLoginPage = () => {
-        navigate("/login") 
+        navigate("/login")
     }
+
+    const handleCloseUserMenu = () => {
+        setIsUserMenuOpen(false);
+    }
+
+    useEffect(() => {
+        const handleResize = () => {
+            if (window.innerWidth < 1024) {
+                setIsUserMenuOpen(false);
+            }
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     return (
         <div>
@@ -32,7 +47,9 @@ const Account = () => {
                         </div>
                         {isUserMenuOpen && (
                             <div className="absolute top-12 right-0 bg-white lg:shadow-lg rounded-lg min-w-52 p-4 z-50">
-                                <UserMenu />
+                                <UserMenu
+                                    close={handleCloseUserMenu}
+                                />
                             </div>
                         )}
                     </div>

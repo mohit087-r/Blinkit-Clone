@@ -10,10 +10,10 @@ import toast from 'react-hot-toast';
 
 
 
-const UserMenu = () => {
+const UserMenu = ({close}) => {
   const user = useSelector((state) => state?.user);
   const userNameOrMobile = user?.name || user?.mobile || 'Guest';
-  const dispath = useDispatch();
+  const dispatch = useDispatch();
 
   const logoutHandler = async () => {
     try {
@@ -28,8 +28,9 @@ const UserMenu = () => {
       }
 
       if(response.data.success){
-        dispath(logout())
+        dispatch(logout())
         localStorage.clear()
+        close()
         toast.success(response.data.message)
       }
     } catch (error) {
