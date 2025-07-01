@@ -6,7 +6,7 @@ const initialState = {
     email : "",
     avatar : "",
     mobile : "",
-    verify_email : false,
+    verify_email : "",
     last_login_date : "",
     status : "",
     address_details : [],
@@ -32,10 +32,24 @@ export const userSlice = createSlice({
             state.shopping_cart = action.payload?.shopping_cart
             state.orderHistory = state?.orderHistory
             state.role = action.payload?.role
+        },
+        logout : (state, action) => {
+            state._id = ""
+            state.name = ""
+            state.email = ""
+            state.avatar = ""
+            state.mobile = ""
+            state.verify_email = ""
+            state.last_login_date = ""
+            state.status = ""
+            state.address_details = []
+            state.shopping_cart = []
+            state.orderHistory = []
+            state.role = ""
         }
     }
 })
 
-export const {setUserDetails} = userSlice.actions
+export const {setUserDetails, logout} = userSlice.actions
 
 export default userSlice.reducer

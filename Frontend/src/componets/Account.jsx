@@ -2,9 +2,11 @@ import React, { useState } from 'react'
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go'
 import UserMenu from './UserMenu'
 import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const Account = () => {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
+    const navigate = useNavigate()
     const user = useSelector((state) => state?.user)
 
     const redirectToLoginPage = () => {

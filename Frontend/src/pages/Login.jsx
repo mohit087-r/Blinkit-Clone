@@ -7,6 +7,7 @@ import Axios from '../utils/Axios'
 import AxiosToastError from '../utils/AxiosToastError'
 import SubmitLoader from '../componets/SubmitLoader'
 import SummaryApi from '../common/SummaryApi'
+import fetchUserDetails from '../utils/fetchUserDetails'
 
 const Login = () => {
     const [email, setEmail] = useState("")
@@ -49,12 +50,12 @@ const Login = () => {
 
             if(response.data.success){
                 toast.success(response.data.message)
-                console.log(response)
                 localStorage.setItem('accessToken', response.data.data.accessToken)
                 localStorage.setItem('refreshToken', response.data.data.refreshToken)
                 setEmail("")
                 setPassword("")
                 setLoader(false)
+                fetchUserDetails();
                 navigate("/")
             }
              
