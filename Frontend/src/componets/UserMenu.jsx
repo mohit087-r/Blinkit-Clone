@@ -7,6 +7,7 @@ import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import toast from 'react-hot-toast';
+import { HiOutlineExternalLink } from 'react-icons/hi'
 
 
 
@@ -39,17 +40,22 @@ const UserMenu = ({close}) => {
   }
 
   return (
-    <div className="text-gray-700">
+    <div className="text-gray-700 pl-2">
       <div className="font-semibold text-xl mb-1">My Account</div>
-      <div className="text-sm text-gray-500">{userNameOrMobile}</div>
+      <div className="text-sm text-gray-500 flex items-center gap-1">
+        {userNameOrMobile}
+        <Link to={"/dashboard/profile"} onClick={() => close()} className='hover:text-green-700'>
+          <HiOutlineExternalLink size={15}/>
+        </Link>
+      </div>
 
       <Divider />
 
       <nav className="mt-5 grid gap-1 text-sm">
-        <Link to="/orders" className="hover:bg-gray-100 p-2 rounded-md">
+        <Link to="/dashboard/myorders" onClick={() => close()} className="hover:bg-gray-100 p-2 rounded-md">
           My Orders
         </Link>
-        <Link to="/addresses" className="hover:bg-gray-100 p-2 rounded-md">
+        <Link to="/dashboard/address" onClick={() => close()} className="hover:bg-gray-100 p-2 rounded-md">
           Saved Addresses
         </Link>
         <button onClick={logoutHandler} className="text-left hover:bg-red-50 p-2 rounded-md">

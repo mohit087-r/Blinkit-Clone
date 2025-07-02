@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react'
 import { GoTriangleDown, GoTriangleUp } from 'react-icons/go'
 import UserMenu from './UserMenu'
 import { useSelector } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 const Account = () => {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
     const navigate = useNavigate()
     const user = useSelector((state) => state?.user)
-
+    const location = useLocation()
     const redirectToLoginPage = () => {
         navigate("/login")
     }
@@ -28,12 +28,20 @@ const Account = () => {
         return () => window.removeEventListener('resize', handleResize);
     }, []);
 
+    const isDashboardRoute = location.pathname.startsWith("/dashboard")
     return (
         <div>
             {
                 user?._id ? (
                     <div className='relative'>
-                        <div onClick={() => setIsUserMenuOpen(!isUserMenuOpen)} className='flex items-center gap-2 text-lg cursor-pointer select-none'>
+                        <div 
+                            onClick={() => {
+                                if (!isDashboardRoute) {
+                                    setIsUserMenuOpen(!isUserMenuOpen)
+                                }
+                            }}
+                            className='flex items-center gap-2 text-lg cursor-pointer select-none'
+                        >
                             <p>Account</p>
                             <button>
                                 {
