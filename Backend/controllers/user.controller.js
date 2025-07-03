@@ -224,7 +224,7 @@ export async function uploadAvatar(req, res) {
         });
 
         return res.json({
-            message: "profile uploaded successfully",
+            message: "profile update successfully",
             data: {
                 _id: userId,
                 avatar: upload.url,
