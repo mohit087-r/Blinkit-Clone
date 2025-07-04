@@ -4,8 +4,8 @@ import Axios from '../utils/Axios';
 import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import toast from 'react-hot-toast';
-import fetchUserDetails from '../utils/fetchUserDetails';
 import { updatedAvatar } from '../store/userSlice';
+
 const UserProfileAvatarEdit = ({ onClose }) => {
     const user = useSelector((state) => state?.user);
     const dispatch = useDispatch()
@@ -61,7 +61,7 @@ const UserProfileAvatarEdit = ({ onClose }) => {
                 </div>
                 <form className='w-full'>
                     <label className='border block border-dashed hover:bg-green-50 cursor-pointer border-gray-400 p-4 rounded-md text-center text-sm text-gray-500 w-full' htmlFor='uploadProfile'>
-                        {loader ? 'Loading' : "Upload"}
+                        {loader ? 'Loading.....' : "Upload"}
                     </label>
                     <input 
                         type='file' 

@@ -1,20 +1,22 @@
-import React, { useState } from 'react'
-import { useSelector } from 'react-redux';
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { FaRegUserCircle } from 'react-icons/fa'
 import UserProfileAvatarEdit from '../componets/UserProfileAvatarEdit';
 import { FiEdit } from 'react-icons/fi'
-import { MdOutlineSave, MdSave } from 'react-icons/md'
-import { FiSave } from 'react-icons/fi'
-import { FaCheck } from 'react-icons/fa'
-import { MdOutlineCheckCircle } from 'react-icons/md';
-import { MdCheckBoxOutlineBlank } from 'react-icons/md';  // empty box
-import { FaCheckSquare } from 'react-icons/fa';
-import { BsCheckSquare } from 'react-icons/bs';
-import { MdCheckBox } from 'react-icons/md';
+import { FaCheckSquare } from 'react-icons/fa'
+import toast from 'react-hot-toast'
+import SubmitLoader from '../componets/SubmitLoader';
+import AxiosToastError from '../utils/AxiosToastError';
+import Axios from '../utils/Axios';
+import SummaryApi from '../common/SummaryApi';
+import fetchUserDetails from '../utils/fetchUserDetails';
+import { setUserDetails } from '../store/userSlice';
 
 const Profile = () => {
-    const user = useSelector((state) => state?.user);
-    const [showEdit, setShowEdit] = useState(false);
+    const user = useSelector((state) => state?.user)
+    const dispatch = useDispatch()
+    const [showEdit, setShowEdit] = useState(false)
+    const [loader, setLoader] = useState(false)
     const [userData, setUserData] = useState({
         name: user.name,
         email: user.email,
@@ -25,14 +27,23 @@ const Profile = () => {
         name: false,
         email: false,
         mobile: false,
-    });
+    })
+
+    const isChanged = () => {
+        return (
+            userData.name !== user.name ||
+            userData.email !== user.email ||
+            userData.mobile !== user.mobile
+        );
+    };
+
 
     const toggleEdit = (field) => {
         setEditableFields((prev) => ({
             ...prev,
             [field]: !prev[field],
-        }));
-    };
+        }))
+    }
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -41,8 +52,53 @@ const Profile = () => {
                 ...prev,
                 [name]: value
             }
-        });
-    };
+        })
+    }
+
+    useEffect(() => {
+        setUserData({
+            name: user.name,
+            email: user.email,
+            mobile: user.mobile
+        })
+    }, [user])
+
+    const handleSubmit = async (e) => {
+        e.preventDefault()
+        setLoader(true);
+        if (!user.name) toast.error('Name required')
+        if (!user.email) toast.error('Email required')
+
+        try {
+            const response = await Axios({
+                method: SummaryApi.update_user_details.method,
+                url: SummaryApi.update_user_details.url,
+                data: userData
+            })
+
+            const { data: responseData } = response
+            if (responseData.error) {
+                toast.error(response.data.message)
+            }
+
+            if (response.data.success) {
+                toast.success(response.data.message)
+                const userData = await fetchUserDetails()
+                dispatch(setUserDetails(userData.data.data))
+                setEditableFields({
+                    name: false,
+                    email: false,
+                    mobile: false
+                });
+
+            }
+        } catch (error) {
+            AxiosToastError(error)
+        } finally {
+
+            setLoader(false)
+        }
+    }
 
     return (
         <div>
@@ -60,7 +116,7 @@ const Profile = () => {
             </div>
             <button
                 onClick={() => setShowEdit(true)}
-                className="mt-2 px-2 py-1 min-w-20 text-sm bg-gray-100 text-gray-800 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150"
+                className="mt-2 px-2 py-1 min-w-20 text-sm bg-gray-100 text-gray-800 border border-gray-300 rounded-md hover:bg-gray-200 transition duration-150 cursor-pointer"
             >
                 Edit
             </button>
@@ -68,7 +124,10 @@ const Profile = () => {
                 <UserProfileAvatarEdit onClose={() => setShowEdit(false)} />
             )}
 
-            <form className='my-4 space-y-4'>
+            <form
+                className='grid gap-4 my-4'
+                onSubmit={handleSubmit}
+            >
 
                 {/* Name */}
                 <div className='grid'>
@@ -131,13 +190,20 @@ const Profile = () => {
 
                     <div className='flex items-center rounded bg-blue-50 border border-blue-50 focus-within:border-amber-200 max-w-80'>
                         <input
-                            type='number'
+                            type='text'
+                            inputMode='numeric'
+                            pattern='[0-9]*'
+                            maxLength={10}
                             placeholder='Enter your mobile number'
                             className='p-2 pl-3 outline-none flex-grow bg-transparent'
                             value={userData.mobile}
                             name='mobile'
                             onChange={handleOnChange}
                             disabled={!editableFields.mobile}
+                            onInput={(e) => {
+                                e.target.value = e.target.value.replace(/\D/g, '');
+                            }}
+                            required
                         />
                         <button
                             type='button'
@@ -149,7 +215,16 @@ const Profile = () => {
                     </div>
                 </div>
 
-
+                <button
+                    type="submit"
+                    disabled={!isChanged()}
+                    className={`border px-4 py-2 font-semibold w-80 rounded-lg transition ${isChanged()
+                            ? 'bg-green-600 text-white hover:bg-green-700 cursor-pointer'
+                            : 'border-green-600 text-green-600 bg-white cursor-not-allowed'
+                        }`}
+                >
+                    {loader ? <SubmitLoader /> : "Save"}
+                </button>
 
             </form>
 
