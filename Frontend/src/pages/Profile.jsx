@@ -101,7 +101,7 @@ const Profile = () => {
     }
 
     return (
-        <div>
+        <div className='ml-4'>
             <div className='w-20 h-20 flex items-center justify-center shadow-lg rounded-full overflow-hidden'>
                 {
                     user?.avatar ? (

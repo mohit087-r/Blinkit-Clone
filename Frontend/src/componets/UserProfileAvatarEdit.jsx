@@ -5,6 +5,7 @@ import SummaryApi from '../common/SummaryApi';
 import AxiosToastError from '../utils/AxiosToastError';
 import toast from 'react-hot-toast';
 import { updatedAvatar } from '../store/userSlice';
+import { IoClose } from "react-icons/io5";
 
 const UserProfileAvatarEdit = ({ onClose }) => {
     const user = useSelector((state) => state?.user);
@@ -41,9 +42,9 @@ const UserProfileAvatarEdit = ({ onClose }) => {
             <div className="bg-white rounded-lg p-6 shadow-lg w-80 relative">
                 <button
                     onClick={onClose}
-                    className="absolute top-2 right-2 text-gray-500 hover:text-red-500"
+                    className="absolute top-2 right-2 text-gray-500 hover:text-red-500 cursor-pointer"
                 >
-                    ✕
+                    <IoClose size={25} />
                 </button>
 
                 <h2 className="text-lg font-semibold mb-3 text-center">Change Profile Picture</h2>

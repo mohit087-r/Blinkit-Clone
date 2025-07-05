@@ -25,7 +25,7 @@ const Header = () => {
                 hideHeader ? (
                     <></>
                 ) : (
-                    <header className='h-25 gap-1 lg:h-20 lg:shadow-sm sticky top-0 flex flex-col justify-center bg-white'>
+                    <header className='h-25 gap-1 lg:h-20 lg:shadow-sm sticky top-0 flex flex-col justify-center bg-white z-100'>
                         {!(isMobile && isSearchPage) && (
                             <div className='container mx-auto flex items-center justify-between px-2'>
                                 {/* logo */}
