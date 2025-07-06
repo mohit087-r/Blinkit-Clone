@@ -8,7 +8,7 @@ import SummaryApi from '../common/SummaryApi.js';
 import AxiosToastError from '../utils/AxiosToastError.js';
 import SubmitLoader from './SubmitLoader.jsx';
 
-const UploadCategoryModel = ({ close }) => {
+const UploadCategoryModel = ({ fetchData, close }) => {
     const [data, setData] = useState({ name: "", image: "" });
     const [loader, setLoader] = useState(false);
 
@@ -42,6 +42,7 @@ const UploadCategoryModel = ({ close }) => {
 
             if(responseData.success){
                 toast.success(responseData.message)
+                fetchData()
                 close()
             }   
         } catch (error) {
@@ -152,7 +153,7 @@ const UploadCategoryModel = ({ close }) => {
                                     ? "bg-blue-400 cursor-wait"
                                     : !data.name || !data.image
                                         ? "bg-gray-400 cursor-not-allowed"
-                                        : "bg-blue-600 hover:bg-blue-700"
+                                        : "bg-blue-400 hover:bg-blue-600"
                                 }`}
                         >
                             {loader ? <SubmitLoader/> : "Add Category"}
