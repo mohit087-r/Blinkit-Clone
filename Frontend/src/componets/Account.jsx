@@ -3,6 +3,7 @@ import { GoTriangleDown, GoTriangleUp } from 'react-icons/go'
 import UserMenu from './UserMenu'
 import { useSelector } from 'react-redux'
 import { useLocation, useNavigate } from 'react-router-dom'
+import AdminMenu from './AdminMenu'
 
 const Account = () => {
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false)
@@ -55,9 +56,18 @@ const Account = () => {
                         </div>
                         {isUserMenuOpen && (
                             <div className="absolute top-12 right-0 bg-white lg:shadow-lg rounded-lg min-w-52 p-4 z-50">
-                                <UserMenu
-                                    close={handleCloseUserMenu}
-                                />
+                                {
+                                    user?.role == 'ADMIN' ? ( 
+                                        <AdminMenu
+                                            close={handleCloseUserMenu}
+                                        /> 
+                                    )   : (
+                                        <UserMenu
+                                            close={handleCloseUserMenu}
+                                        />
+                                    )
+                                }
+                                    
                             </div>
                         )}
                     </div>

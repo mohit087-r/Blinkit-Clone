@@ -21,6 +21,11 @@ const SideMenu = () => {
       <div className="font-semibold text-xl mb-1">My Account</div>
       <div className="text-sm text-gray-500 flex items-center gap-1">
         {userNameOrMobile}
+        {
+          user?.role === 'ADMIN' ?
+          <span className='text-red-500 text-xs'>&#40;Admin&#41;</span> 
+          : <></>
+        }
       </div>
 
       <Divider />

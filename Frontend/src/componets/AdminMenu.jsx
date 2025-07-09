@@ -8,7 +8,7 @@ import SummaryApi from '../common/SummaryApi'
 import AxiosToastError from '../utils/AxiosToastError'
 import toast from 'react-hot-toast'
 
-const UserMenu = ({ close }) => {
+const AdminMenu = ({ close }) => {
   const user = useSelector((state) => state?.user)
   const userNameOrMobile = user?.name || user?.mobile || 'Guest'
   const dispatch = useDispatch()
@@ -42,7 +42,8 @@ const UserMenu = ({ close }) => {
     <div className="text-gray-700 pl-2">
       <div className="font-semibold text-xl mb-1">My Account</div>
       <div className="text-sm text-gray-500 flex items-center gap-1">
-        {userNameOrMobile}
+        {userNameOrMobile} 
+        <span className='text-red-500 text-xs'>&#40;Admin&#41;</span>
       </div>
 
       <Divider />
@@ -51,11 +52,17 @@ const UserMenu = ({ close }) => {
         <Link to={"/dashboard/profile"} onClick={() => close()} className='hover:bg-blue-100 p-2 rounded-md'>
           Profile
         </Link>
-        <Link to={"/dashboard/myorders"} onClick={() => close()} className="hover:bg-blue-100 p-2 rounded-md">
-          My Orders
+        <Link to={"/dashboard/category"} onClick={() => close()} className="hover:bg-blue-100 p-2 rounded-md">
+          Category
         </Link>
-        <Link to={"/dashboard/address"} onClick={() => close()} className="hover:bg-blue-100 p-2 rounded-md">
-          Saved Addresses
+        <Link to={"/dashboard/sub-category"} onClick={() => close()} className="hover:bg-blue-100 p-2 rounded-md">
+          Sub Category
+        </Link>
+        <Link to={"/dashboard/upload-product"} onClick={() => close()} className="hover:bg-blue-100 p-2 rounded-md">
+          Upload Product
+        </Link>
+        <Link to={"/dashboard/product"} onClick={() => close()} className="hover:bg-blue-100 p-2 rounded-md">
+          Product
         </Link>
         <button onClick={logoutHandler} className="text-left hover:bg-red-100 p-2 rounded-md">
           Logout
@@ -65,4 +72,5 @@ const UserMenu = ({ close }) => {
   );
 };
 
-export default UserMenu;
+
+export default AdminMenu

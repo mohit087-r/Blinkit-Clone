@@ -15,72 +15,89 @@ import CategoryPage from "../pages/CategoryPage";
 import SubCategoryPage from "../pages/SubCategoryPage";
 import UploadProduct from "../pages/UploadProduct";
 import ProductAdmin from "../pages/ProductAdmin";
+import ProtectedRoute from "../layouts/ProtectedRoute";
 
 
 const router = createBrowserRouter([
     {
-        path : '/',
-        element : <App/>,
-        children : [
+        path: '/',
+        element: <App />,
+        children: [
             {
-                path : "",
-                element : <Home/>
+                path: "",
+                element: <Home />
             },
             {
-                path : 'search',
-                element : <SearchPage/>
+                path: 'search',
+                element: <SearchPage />
             },
             {
-                path : 'login',
-                element : <Login/>
+                path: 'login',
+                element: <Login />
             },
             {
-                path : 'register',
-                element : <Register/>
+                path: 'register',
+                element: <Register />
             },
             {
-                path : 'forgot-password',
-                element : <ForgotPassword/>
+                path: 'forgot-password',
+                element: <ForgotPassword />
             },
             {
-                path : 'verify-otp',
-                element : <VerifyOtp/>
+                path: 'verify-otp',
+                element: <VerifyOtp />
             },
             {
-                path : 'reset-password',
-                element : <ResetPassword/>
+                path: 'reset-password',
+                element: <ResetPassword />
             },
             {
-                path : 'dashboard',
-                element : <Dashbaord/>,
-                children : [
+                path: 'dashboard',
+                element: <Dashbaord />,
+                children: [
                     {
-                        path : 'profile',
-                        element : <Profile/>
+                        path: 'profile',
+                        element: <Profile />
                     },
                     {
-                        path : 'myorders',
-                        element : <MyOrder/>
+                        path: 'myorders',
+                        element: <MyOrder />
                     },
                     {
-                        path : 'address',
-                        element : <Address/>
+                        path: 'address',
+                        element: <Address />
                     },
                     {
                         path: 'product',
-                        element : <ProductAdmin/>
+                        element: (
+                            <ProtectedRoute>
+                                <ProductAdmin />
+                            </ProtectedRoute>
+                        )
                     },
                     {
-                        path : 'category',
-                        element : <CategoryPage/>
+                        path: 'category',
+                        element: (
+                            <ProtectedRoute>
+                                <CategoryPage />
+                            </ProtectedRoute>
+                        )
                     },
                     {
-                        path : 'sub-category',
-                        element : <SubCategoryPage/>
+                        path: 'sub-category',
+                        element: (
+                            <ProtectedRoute>
+                                <SubCategoryPage />
+                            </ProtectedRoute>
+                        )
                     },
                     {
-                        path : 'upload-product',
-                        element : <UploadProduct/>
+                        path: 'upload-product',
+                        element: (
+                            <ProtectedRoute>
+                                <UploadProduct />
+                            </ProtectedRoute>
+                        )
                     }
                 ]
             }

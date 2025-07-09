@@ -38,7 +38,7 @@ const UserSideMenu = () => {
         <nav className="mt-5 grid gap-1 text-sm">
             <Link
                 to="/dashboard/profile"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/profile' ? 'bg-gray-200 font-medium' : 'hover:bg-gray-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/profile' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 Profile
@@ -46,7 +46,7 @@ const UserSideMenu = () => {
 
             <Link
                 to="/dashboard/myorders"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/myorders' ? 'bg-gray-200 font-medium' : 'hover:bg-gray-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/myorders' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 My Orders
@@ -54,7 +54,7 @@ const UserSideMenu = () => {
 
             <Link
                 to="/dashboard/address"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/address' ? 'bg-gray-200 font-medium' : 'hover:bg-gray-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/address' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 Saved Addresses

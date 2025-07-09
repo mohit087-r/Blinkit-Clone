@@ -6,6 +6,7 @@ import AxiosToastError from '../utils/AxiosToastError';
 import toast from 'react-hot-toast';
 import { updatedAvatar } from '../store/userSlice';
 import { IoClose } from "react-icons/io5";
+import { FaRegUserCircle } from 'react-icons/fa';
 
 const UserProfileAvatarEdit = ({ onClose }) => {
     const user = useSelector((state) => state?.user);

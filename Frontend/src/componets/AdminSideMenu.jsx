@@ -35,10 +35,10 @@ const AdminSideMenu = () => {
         }
     }
     return (
-        <nav className="mt-5 grid gap-1 text-sm">
+        <nav className="mt-5 pr-3 grid gap-1 text-sm text-neutral-800">
             <Link
                 to="/dashboard/profile"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/profile' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/profile' ? 'bg-blue-300 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 Profile
@@ -46,7 +46,7 @@ const AdminSideMenu = () => {
 
             <Link
                 to="/dashboard/category"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/category' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/category' ? 'bg-blue-300 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 Category
@@ -54,7 +54,7 @@ const AdminSideMenu = () => {
 
             <Link
                 to="/dashboard/sub-category"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/sub-category' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/sub-category' ? 'bg-blue-300 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 Sub Category
@@ -62,7 +62,7 @@ const AdminSideMenu = () => {
 
             <Link
                 to="/dashboard/upload-product"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/upload-product' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/upload-product' ? 'bg-blue-300 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 Upload Product
@@ -70,7 +70,7 @@ const AdminSideMenu = () => {
 
             <Link
                 to="/dashboard/product"
-                className={`p-2 rounded-md ${location.pathname === '/dashboard/product' ? 'bg-blue-200 font-medium' : 'hover:bg-blue-100'
+                className={`p-2 rounded-md ${location.pathname === '/dashboard/product' ? 'bg-blue-300 font-medium' : 'hover:bg-blue-100'
                     }`}
             >
                 Product

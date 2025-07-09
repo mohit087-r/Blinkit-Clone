@@ -42,7 +42,7 @@ const SummaryApi = {
         method : 'put'
     },
     add_category : {
-        url : '/api/category/add-category',
+        url : '/api/category/add',
         method : 'post'
     },
     upload_image : {
@@ -52,7 +52,15 @@ const SummaryApi = {
     get_categories : {
         url : '/api/category/get',
         method : 'get'
-    }
+    },
+    update_category : {
+        url : '/api/category/update',
+        method : 'put'
+    },
+    remove_category : {
+        url : '/api/category/remove',
+        method : 'delete'
+    } 
 }
 
 export default SummaryApi
