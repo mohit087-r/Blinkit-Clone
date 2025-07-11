@@ -3,13 +3,11 @@ import UploadCategoryModel from "../componets/UploadCategoryModel";
 import { FaPlus } from "react-icons/fa6";
 import { useEffect } from "react";
 import Loader from "../componets/Loader";
-import Axios from "../utils/Axios";
-import SummaryApi from "../common/SummaryApi";
-import AxiosToastError from "../utils/AxiosToastError";
 import NoData from "../componets/noData";
 import { FiEdit, FiTrash2 } from "react-icons/fi";
 import EditCategory from "../componets/EditCategory";
 import DeleteCategory from "../componets/DeleteCategory";
+import { useSelector } from "react-redux";
 
 const CategoryPage = () => {
   const [openUploadCategory, setOpenUploadCategory] = useState(false);
@@ -19,29 +17,11 @@ const CategoryPage = () => {
   const [data, setData] = useState({})
   const [openDelete, setOpenDelete] = useState(false)
 
-  const fetchCategory = async () => {
-    setLoader(true);
-    try {
-      const response = await Axios({
-        method: SummaryApi.get_categories.method,
-        url: SummaryApi.get_categories.url,
-      });
-
-      const { data: responseData } = response;
-
-      if (responseData.success) {
-        setCategoryData(responseData.data);
-      }
-    } catch (error) {
-      AxiosToastError(error);
-    } finally {
-      setLoader(false);
-    }
-  };
+  const allCategory = useSelector(state => state.product.allCategory)
 
   useEffect(() => {
-    fetchCategory();
-  }, []);
+    setCategoryData(allCategory)
+  },[categoryData])
 
 
   return (
@@ -107,7 +87,7 @@ const CategoryPage = () => {
 
       {openUploadCategory && (
         <UploadCategoryModel
-          fetchData={fetchCategory}
+          // fetchData={fetchCategory}
           close={() => setOpenUploadCategory(false)}
         />
       )}
@@ -116,7 +96,7 @@ const CategoryPage = () => {
         openEdit && (
           <EditCategory
             editData={data}
-            fetchData={fetchCategory}
+            // fetchData={fetchCategory}
             close={() => setOpenEdit(false)}
           />
         )
@@ -126,13 +106,10 @@ const CategoryPage = () => {
         openDelete && (
           <DeleteCategory
             deleteData={data}
-            fetchData={fetchCategory}
             cancle={() => setOpenDelete(false)}
           />
         )
       }
-
-      
     </section>
   );
 };

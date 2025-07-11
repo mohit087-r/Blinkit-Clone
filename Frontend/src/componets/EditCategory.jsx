@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import SubmitLoader from './SubmitLoader';
 import uploadImage from '../utils/UploadImage';
 
-const EditCategory = ({editData, fetchData, close}) => {
+const EditCategory = ({editData, close}) => {
     const [data, setData] = useState({ 
         name: editData.name, 
         image: editData.image,
@@ -47,7 +47,7 @@ const EditCategory = ({editData, fetchData, close}) => {
 
             if(responseData.success){
                 toast.success(responseData.message)
-                fetchData()
+                // fetchData()
                 close()
             }   
         } catch (error) {

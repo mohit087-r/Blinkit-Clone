@@ -7,10 +7,12 @@ import Axios from '../utils/Axios.js';
 import SummaryApi from '../common/SummaryApi.js';
 import AxiosToastError from '../utils/AxiosToastError.js';
 import SubmitLoader from './SubmitLoader.jsx';
+import { useDispatch } from 'react-redux';
 
-const UploadCategoryModel = ({ fetchData, close }) => {
+const UploadCategoryModel = ({ close }) => {
     const [data, setData] = useState({ name: "", image: "" });
     const [loader, setLoader] = useState(false);
+    const dispatch = useDispatch()
 
     const handleOnChange = (e) => {
         const { name, value } = e.target;
@@ -42,7 +44,7 @@ const UploadCategoryModel = ({ fetchData, close }) => {
 
             if(responseData.success){
                 toast.success(responseData.message)
-                fetchData()
+                dispatch()
                 close()
             }   
         } catch (error) {
@@ -67,7 +69,7 @@ const UploadCategoryModel = ({ fetchData, close }) => {
     };
 
     return (
-        <section className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
+        <section className="fixed inset-0 mt-25 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 px-4">
             <div className="relative bg-white w-full max-w-md rounded-xl p-6 shadow-lg transition-all animate-fadeIn">
                 {/* Header */}
                 <div className="flex items-center justify-between border-b pb-4">

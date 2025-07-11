@@ -3,11 +3,14 @@ import SummaryApi from '../common/SummaryApi';
 import Axios from '../utils/Axios';
 import toast from 'react-hot-toast';
 import AxiosToastError from '../utils/AxiosToastError';
+import { useDispatch } from 'react-redux';
+import { setAllCategory } from '../store/productSlice';
 
-const DeleteCategory = ({ deleteData, fetchData, cancle }) => {
+const DeleteCategory = ({ deleteData, cancle }) => {
     const [data, setData] = useState({
         categoryId : deleteData._id
     })
+    const dispatch = useDispatch()
 
     console.log(data)
 
@@ -34,8 +37,8 @@ const DeleteCategory = ({ deleteData, fetchData, cancle }) => {
 
             if(responseData.success){
                 toast.success(responseData.message)
-                fetchData()
-                close()
+                dispatch(setAllCategory())
+                cancle()
             }   
         } catch (error) {
             AxiosToastError(error)

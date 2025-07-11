@@ -9,6 +9,7 @@ import connectDb from './config/db.js'
 import userRouter from './routes/user.route.js'
 import categoryRouter from './routes/category.route.js'
 import uploadRouter from './routes/upload.route.js'
+import subCategoryRouter from './routes/subCategory.route.js'
 
 const app = express();
 app.use(cors({
@@ -27,6 +28,7 @@ const PORT = 8080 || process.env.PORT
 app.use('/api/user', userRouter)
 app.use('/api/category', categoryRouter)
 app.use('/api/file', uploadRouter)
+app.use('/api/sub-category', subCategoryRouter)
 
 connectDb().then(() => {
     app.listen(PORT, () => {
