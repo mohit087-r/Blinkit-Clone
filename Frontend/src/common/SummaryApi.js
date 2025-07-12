@@ -64,6 +64,10 @@ const SummaryApi = {
     add_sub_category : {
         url : '/api/sub-category/add',
         method : 'post'
+    },
+    get_sub_categories : {
+        url : '/api/sub-category/get',
+        method : 'post'
     }
 }
 
